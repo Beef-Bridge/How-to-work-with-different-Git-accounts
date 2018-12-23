@@ -1,5 +1,5 @@
 # How-to-work-with-different-Git-accounts
-Working with a Github account is as easy as 1-2-3. However, all this complicates when you have to juggle, from your development workstation, between different GitHub accounts (personal and pro for example) and a GitLab account.
+Working with a Github account is as easy as 1-2-3. However, all this complicates when you have to juggle, from your development workstation, between different GitHub accounts (e. g. personal and professional) and a GitLab account.
 We'll see together how to make it easy!
 
 
@@ -7,7 +7,7 @@ We'll see together how to make it easy!
 
 - [Git](https://git-scm.com/) installed
 - Have a GitHub account
-- Have a GitLab account
+- Have a personal GitLab account or an company account
 
 # Configuration
 ## Create SSH Keys
@@ -21,22 +21,24 @@ Be careful that you don't over-write your existing key!
 When prompted, save the file in your ssh directory (`~/.ssh/`) as `id_rsa_github`.
 
 ### GitLab
-As for GitHub, we create a unique SSH key for our GitLab account and register it with 'id_rsa_gitlab'.
+As for GitHub, we create a unique SSH key for our GitLab account and register it with `id_rsa_gitlab`.
 ```
 ssh-keygen -t rsa -C "email-address-to-your-GitLab-account"
 ```
 
 ### Other
-If you wish, you can reproduce this for other GitHub/GitLab accounts (professional for example). To do this, enter the email address to your pro account when generating the SSH key and register it under 'id_rsa_gitlab_company'.
+If you wish, you can reproduce this for other GitHub/GitLab accounts (e. g. professional). To do this, enter the email address to your professional account when generating the SSH key and register it under 'id_rsa_gitlab_company'.
 
 ## Attach the keys
 Now, connect to your GitHub account, access the "SSH and GPG keys" page from "Settings" to your account. Attach the key, by clicking on the "New SSH key" button, in the "SSH keys" section.
+
 To retrieve the value of the key that you just created, return to the Terminal, and type: `vim ~/.ssh/id_rsa_github.pub`. Copy the entire string that it displayed, and paste this into the GitHub textarea. Feel free to give it any title you wish.
+
 Next, because we saved our key with a unique name, we need to tell SSH about it. Within the Terminal, type `ssh-add ~/.ssh/id_rsa_github`.
 If successful, you'll see a response of "Identity Added".
 
-Let's do the same for our personnal GitLab or GitLab company account.
-Copy/paste the complete content to your id_rsa_gitlab file into the SSH Keys section from your Gitlab account and run the following command `ssh-add ~/.ssh/id_rsa_gitlab`.
+Let's do the same for our personal GitLab or GitLab company account.
+Copy/paste the complete content to your 'id_rsa_gitlab' file into the SSH Keys section from your Gitlab account and run the following command `ssh-add ~/.ssh/id_rsa_gitlab`.
 
 ## Create a Config file
 We've done the bulk of the workload; but now we need a way to specify when we wish to push our GitHub account, and when we should instead push to or GitLab account. To do so, let's create a `config` file.
@@ -65,7 +67,7 @@ IdentityFile ~/.ssh/id_rsa_gitlab
 ```
 For push to GitLab, we defined the host at `gitlab.com`, we changed the host name to `gitlab.com` and we provide the path to our `id_rsa_gitlab` file for IdentityFile.
 
-Si besoin, vous pouvez configurer d'autres comptes GitHub/GitLab (professionnel par exemple).
+If necessary, you can configure other GitHub/GitLab accounts (e. g. professional).
 ```
 # GitLab company account
 Host gitlab-company
@@ -89,9 +91,10 @@ git push origin master
 ```
 Note that, the second time, rather than pushing to `git@gitlab-company`, we're using the custom host that we create in the `config` file.
 
-Remember, when cloning/pushing:
-- To your personnal GitHub account, proceed as you always have.
-- For your personnal GitLab or GitHub company account, make sure that you use `git@gitlab.com` or `git@github-company` as the host.
+# Remember
+When cloning/pushing:
+- To your personal GitHub account, proceed as you always have.
+- For your personal GitLab or GitHub company account, make sure that you use `git@gitlab.com` or `git@github-company` as the host.
 
 # Credits
 - [Jeffrey Way's post on code.tutsplus.com](https://code.tutsplus.com/tutorials/quick-tip-how-to-work-with-github-and-multiple-accounts--net-22574)
